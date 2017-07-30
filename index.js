@@ -28,4 +28,5 @@ var app = express();
 
 app.post('/testA', function(req,res){
     console.log(req);
+    res.status(200).send("Directory accessed");
 });
