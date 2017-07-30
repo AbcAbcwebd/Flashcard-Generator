@@ -1,12 +1,37 @@
 var quizType;
 
 function generateBasicQuestionInput(){
-	var basicQuestionInput = $('<div>').attr('class', 'basic-question-input-element').text("Test text");
-//	var frontInput = $('<input>').value('Front').attr('class', 'front-input');
-//	var backInput = $('<input>').value('Back').attr('class', 'back-input');
-//	basicQuestionInput.append(frontInput);
-//	basicQuestionInput.append(backInput);
+	var basicQuestionInput = $('<div>').attr('class', 'basic-question-input-element');
+	var frontLabel = $('<p>').text("Front: ").css('font-size', '18px');
+	var frontInput = $('<input>').attr('class', 'front-input');
+	var backLabel = $('<p>').text("Back: ").css('font-size', '18px');
+	var backInput = $('<input>').attr('class', 'back-input');
+	basicQuestionInput.append(frontLabel);
+	basicQuestionInput.append(frontInput);
+	basicQuestionInput.append(backLabel);
+	basicQuestionInput.append(backInput);
 	return basicQuestionInput;
+};
+
+function generateClozeQuestionInput(){
+	var clozeQuestionInput = $('<div>').attr('class', 'cloze-question-input-element');
+	var fullTextLabel = $('<p>').text("Full text: ").css('font-size', '18px');
+	var fullTextInput = $('<input>').attr('class', 'full-text-input');
+	var hiddenPhraseLabel = $('<p>').text("Phrase to hide: ").css('font-size', '18px');
+	var hiddenPhraseInput = $('<input>').attr('class', 'hidden-phrase-input');
+	clozeQuestionInput.append(fullTextLabel);
+	clozeQuestionInput.append(fullTextInput);
+	clozeQuestionInput.append(hiddenPhraseLabel);
+	clozeQuestionInput.append(hiddenPhraseInput);
+	return clozeQuestionInput;
+};
+
+function addQuestionInput(){
+	if (quizType === "standard"){
+		$('#question-input-holder').append(generateBasicQuestionInput());
+	} else if (quizType === "cloze") {
+		$('#question-input-holder').append(generateClozeQuestionInput());
+	};
 };
 
 function takeQuizInput(){
@@ -20,12 +45,7 @@ function takeQuizInput(){
 	$('#display-holder').append(addQuestionButton);
 	$('#display-holder').append(saveButton);
 
-	if (quizType === "standard"){
-		console.log("Standard");
-		$('#question-input-holder').append(generateBasicQuestionInput());
-
-	};
-
+	addQuestionInput();
 };
 
 $( document ).ready(function() {
@@ -33,4 +53,8 @@ $( document ).ready(function() {
     	quizType = $(this).data('selector');
     	takeQuizInput();
     });
+
+    $("body").on("click", "#add-question-btn", function(){
+	    addQuestionInput();
+	});
 });

@@ -1,5 +1,5 @@
 #display-holder {
-	height: 300px;
+	min-height: 300px;
 	width: 90%;
 	background: #e5e5e5;
 	margin-left: 5%;
@@ -34,10 +34,21 @@ header h1 {
 	background: #a3a3a3;
 	color: white;
 	border-radius: 8px;
+	margin-bottom: 30px;
 }
 
 #display-holder button:hover {
 	background: #e5e5e5;
 	color: black;
 	border-radius: 50%;
+}
+
+.basic-question-input-element, .cloze-question-input-element {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+#display-holder input {
+	width: 75%;
+	font-size: 18px;
 }
