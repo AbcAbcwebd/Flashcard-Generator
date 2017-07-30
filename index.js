@@ -26,6 +26,6 @@ router.get('/server', function(req, res, next) {
 var express = require('express');
 var app = express();
 
-app.post('/', function(req,res){
+app.post('/testA', function(req,res){
     console.log(req);
 });
