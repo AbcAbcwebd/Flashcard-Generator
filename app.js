@@ -1,4 +1,5 @@
 var quizType;
+var questionCount = 0;
 
 function generateBasicQuestionInput(){
 	var basicQuestionInput = $('<div>').attr('class', 'basic-question-input-element');
@@ -32,6 +33,7 @@ function addQuestionInput(){
 	} else if (quizType === "cloze") {
 		$('#question-input-holder').append(generateClozeQuestionInput());
 	};
+	questionCount++;
 };
 
 function takeQuizInput(){
@@ -56,5 +58,15 @@ $( document ).ready(function() {
 
     $("body").on("click", "#add-question-btn", function(){
 	    addQuestionInput();
+	});
+
+	$("body").on("click", "#save-btn", function(){
+	    if (quizType === "standard"){
+			$('.basic-question-input-element').each(function( index ) {
+			  console.log($('.basic-question-input-element')[index].find('p'));
+			});;
+		} else if (quizType === "cloze") {
+			$('#question-input-holder').append(generateClozeQuestionInput());
+		};
 	});
 });
