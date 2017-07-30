@@ -1,12 +1,13 @@
 var quizType;
 var questionCount = 0;
+//var BasicCard = require('./BasicCard.js');
 
 function generateBasicQuestionInput(){
 	var basicQuestionInput = $('<div>').attr('class', 'basic-question-input-element');
 	var frontLabel = $('<p>').text("Front: ").css('font-size', '18px');
-	var frontInput = $('<input>').attr('class', 'front-input');
+	var frontInput = $('<input>').attr('class', 'front-input').attr('id', 'front-input-' + questionCount);
 	var backLabel = $('<p>').text("Back: ").css('font-size', '18px');
-	var backInput = $('<input>').attr('class', 'back-input');
+	var backInput = $('<input>').attr('class', 'back-input').attr('id', 'back-input-' + questionCount);
 	basicQuestionInput.append(frontLabel);
 	basicQuestionInput.append(frontInput);
 	basicQuestionInput.append(backLabel);
@@ -17,9 +18,9 @@ function generateBasicQuestionInput(){
 function generateClozeQuestionInput(){
 	var clozeQuestionInput = $('<div>').attr('class', 'cloze-question-input-element');
 	var fullTextLabel = $('<p>').text("Full text: ").css('font-size', '18px');
-	var fullTextInput = $('<input>').attr('class', 'full-text-input');
+	var fullTextInput = $('<input>').attr('class', 'full-text-input').attr('id', 'full-text-input-' + questionCount);
 	var hiddenPhraseLabel = $('<p>').text("Phrase to hide: ").css('font-size', '18px');
-	var hiddenPhraseInput = $('<input>').attr('class', 'hidden-phrase-input');
+	var hiddenPhraseInput = $('<input>').attr('class', 'hidden-phrase-input').attr('id', 'hidden-phrase-input-' + questionCount);
 	clozeQuestionInput.append(fullTextLabel);
 	clozeQuestionInput.append(fullTextInput);
 	clozeQuestionInput.append(hiddenPhraseLabel);
@@ -61,12 +62,37 @@ $( document ).ready(function() {
 	});
 
 	$("body").on("click", "#save-btn", function(){
-	    if (quizType === "standard"){
-			$('.basic-question-input-element').each(function( index ) {
-			  console.log($('.basic-question-input-element')[index].find('p'));
-			});;
+		if (quizType === "standard"){
+		    for (var i = 0; i < questionCount; i++){
+		    	var localFrontValue = $('#front-input-' + i)[0].value;
+		 		var localBackValue = $('#back-input-' + i)[0].value;
+		    };
 		} else if (quizType === "cloze") {
-			$('#question-input-holder').append(generateClozeQuestionInput());
+			for (var i = 0; i < questionCount; i++){
+				var localFullTextValue = $('#full-text-input-' + i)[0].value;
+				var localHiddenPhraseValue = $('#hidden-phrase-input-' + i)[0].value;
+			};
 		};
 	});
 });
+
+/*
+var data = {
+    amount: 3,
+    currency: 2,
+    source: 3,
+    description: 4
+};
+
+$http.get('/server', data) // PASS THE DATA AS THE SECOND PARAMETER
+    .success(
+        function(success){
+            console.log(success)
+        })
+    .error(
+        function(error){
+            console.log(error)
+        });
+*/
+
+$.get("index.js", { name:"Donald", town:"Ducktown" });

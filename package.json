@@ -1,0 +1,23 @@
+{
+  "name": "flashcard-generator",
+  "version": "1.0.0",
+  "description": "Generate virtual flash cards",
+  "main": "BasicCard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbcAbcwebd/Flashcard-Generator.git"
+  },
+  "keywords": [
+    "Flash",
+    "cards"
+  ],
+  "author": "Owen Essen",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://github.com/AbcAbcwebd/Flashcard-Generator/issues"
+  },
+  "homepage": "https://github.com/AbcAbcwebd/Flashcard-Generator#readme"
+}
