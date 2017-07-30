@@ -1,0 +1,43 @@
+#display-holder {
+	height: 300px;
+	width: 90%;
+	background: #e5e5e5;
+	margin-left: 5%;
+	margin-top: 35px;
+	text-align: center;
+	padding-top: 60px;
+}
+
+header {
+	background: black;
+}
+
+header h1 {
+	color: white;
+	font-size: 30px;
+	margin-left: 5%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#display-holder p {
+	font-size: 25px;
+}
+
+#display-holder button {
+	margin-top: 40px;
+	font-size: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-right: 5px;
+	margin-left: 5px;
+	background: #a3a3a3;
+	color: white;
+	border-radius: 8px;
+}
+
+#display-holder button:hover {
+	background: #e5e5e5;
+	color: black;
+	border-radius: 50%;
+}
