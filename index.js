@@ -1,6 +1,7 @@
+/*
 router.get('/server', function(req, res, next) {
 
-/*
+
     var amount = req.query.amount; // GET THE AMOUNT FROM THE GET REQUEST
 
     var stripeToken = "CUSTOM_PAYMENT_TOKEN";
@@ -17,6 +18,14 @@ router.get('/server', function(req, res, next) {
             res.json(charge);   
         }
     });
-    */
+ 
+    console.log(req);
+});
+   */
+
+var express = require('express');
+var app = express();
+
+app.post('/', function(req,res){
     console.log(req);
 });
