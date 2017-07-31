@@ -18,6 +18,72 @@ var ClozeCard = require('./ClozeCard.js');
 var inquirer = require('inquirer');
 var quizType;
 var allFlashcards = [];
+var currentQuestion = 0;
+var correctCount = 0;
+
+function displayStart(){
+    console.log("*****   *****    ***    *****   *****");
+
+    console.log("*         *     *   *   *   *     *");
+
+    console.log("*****     *     *****   *****     *");
+
+    console.log("    *     *    *     *  *  *      *");
+
+    console.log("    *     *    *     *  *   *     *");
+
+    console.log("*****     *    *     *  *   *     *");
+};
+
+function playBasicQuestion(){
+    console.log("Front: " + allFlashcards[currentQuestion].front);
+    inquirer.prompt([ 
+       {
+            type: 'input',
+            name: 'basicAns',
+            message: "What's on the back?"
+        } 
+    ]).then(function (answers) {
+        if (answers.basicAns === allFlashcards[currentQuestion].back){
+            console.log("Correct!");
+            correctCount++;
+        } else {
+            console.log("Sorry, the answer was " + allFlashcards[currentQuestion].back);
+        }
+        currentQuestion++;
+        if (currentQuestion < allFlashcards.length){
+            playBasicQuestion();
+        } else {
+            console.log("You got " + correctCount + " out of " + allFlashcards.length + " correct");
+            console.log("Thanks for playing!");
+        };
+    });
+};
+
+function playClozeQuestion(){
+    console.log(allFlashcards[currentQuestion].partialText);
+    inquirer.prompt([ 
+       {
+            type: 'input',
+            name: 'clozeAns',
+            message: "Complete the sentence."
+        } 
+    ]).then(function (answers) {
+        if (answers.clozeAns === allFlashcards[currentQuestion].cloze){
+            console.log("Correct!");
+            correctCount++;
+        } else {
+            console.log("Sorry, the full sentence was: " + allFlashcards[currentQuestion].fullText);
+        }
+        currentQuestion++;
+        if (currentQuestion < allFlashcards.length){
+            playClozeQuestion();
+        } else {
+            console.log("You got " + correctCount + " out of " + allFlashcards.length + " correct");
+            console.log("Thanks for playing!");
+        };
+    });
+};
 
 function addStandardFlashcard(){
     inquirer.prompt([ 
@@ -43,7 +109,8 @@ function addStandardFlashcard(){
         if (answers.additionalQuestion){
             addStandardFlashcard();
         } else {
-
+            displayStart();
+            playBasicQuestion();
         };
     });
 };
@@ -69,12 +136,12 @@ function addClozeFlashcard(){
     ]).then(function (answers) {
         var newCard = new ClozeCard(answers.fullText, answers.cloze);
         newCard.findPartialText();
-        console.log(newCard.partialText);
         allFlashcards.push(newCard);
         if (answers.additionalQuestion){
             addClozeFlashcard();
         } else {
-
+            displayStart();
+            playClozeQuestion();
         };
     });
 };
