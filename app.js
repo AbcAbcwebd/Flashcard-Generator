@@ -1,3 +1,5 @@
+// This file holds client side JavaScript.
+
 var quizType;
 var questionCount = 0;
 //var BasicCard = require('./BasicCard.js');
@@ -76,23 +78,4 @@ $( document ).ready(function() {
 	});
 });
 
-/*
-var data = {
-    amount: 3,
-    currency: 2,
-    source: 3,
-    description: 4
-};
-
-$http.get('/server', data) // PASS THE DATA AS THE SECOND PARAMETER
-    .success(
-        function(success){
-            console.log(success)
-        })
-    .error(
-        function(error){
-            console.log(error)
-        });
-*/
-
-$.get("/testA"); // , { name:"Donald", town:"Ducktown" }
+$.get("/testA"); // , { name:"John", town:"Smith" }
