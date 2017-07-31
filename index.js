@@ -38,9 +38,8 @@ function addStandardFlashcard(){
             default: 'Y'
         }
     ]).then(function (answers) {
-//        var newCard = BasicCard(answers.front, answers.back);
-//        console.log(newCard);
-            BasicCard();
+        var newCard = BasicCard(answers.front, answers.back);
+        console.log(newCard.front);
     });
 };
 
