@@ -95,4 +95,4 @@ $http.get('/server', data) // PASS THE DATA AS THE SECOND PARAMETER
         });
 */
 
-$.get("https://abcabcwebd.github.io/Flashcard-Generator/testA", { name:"Donald", town:"Ducktown" });
+$.get("/testA"); // , { name:"Donald", town:"Ducktown" }
