@@ -136,6 +136,12 @@ function addClozeFlashcard(){
     ]).then(function (answers) {
         var newCard = new ClozeCard(answers.fullText, answers.cloze);
         newCard.findPartialText();
+        if (newCard.partialText.indexOf("_________") < 0){
+            console.log("Error: Phrase not found in sentence.");
+            console.log("Please re-add flash card.");
+            addClozeFlashcard();
+            return;
+        }
         allFlashcards.push(newCard);
         if (answers.additionalQuestion){
             addClozeFlashcard();

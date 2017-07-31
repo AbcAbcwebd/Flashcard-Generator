@@ -6,9 +6,7 @@ var ClozeCard = function(text, cloze){
 		var localPartial = this.fullText.replace(this.cloze, "_________");
 		if (localPartial){
 			this.partialText = localPartial;
-		} else {
-			console.log("Please input proper cloze request.");
-		}
+		};
 	}
 }
 
