@@ -137,8 +137,6 @@ function addClozeFlashcard(){
         var newCard = new ClozeCard(answers.fullText, answers.cloze);
         newCard.findPartialText();
         if (newCard.partialText.indexOf("_________") < 0){
-            console.log("Error: Phrase not found in sentence.");
-            console.log("Please re-add flash card.");
             addClozeFlashcard();
             return;
         }
