@@ -38,8 +38,44 @@ function addStandardFlashcard(){
             default: 'Y'
         }
     ]).then(function (answers) {
-        var newCard = BasicCard(answers.front, answers.back);
-        console.log(newCard.front);
+        var newCard = new BasicCard(answers.front, answers.back);
+        allFlashcards.push(newCard);
+        if (answers.additionalQuestion){
+            addStandardFlashcard();
+        } else {
+
+        };
+    });
+};
+
+function addClozeFlashcard(){
+    inquirer.prompt([ 
+        {
+            type: 'input',
+            name: 'fullText',
+            message: 'What do you the full text to be?'
+        },
+        {
+            type: 'input',
+            name: 'cloze',
+            message: 'Which phrase to you want to obscure?'
+        },
+        {
+            type: 'confirm',
+            name: 'additionalQuestion',
+            message: 'Do you want to add another flashcard?',
+            default: 'Y'
+        }
+    ]).then(function (answers) {
+        var newCard = new ClozeCard(answers.fullText, answers.cloze);
+        newCard.findPartialText();
+        console.log(newCard.partialText);
+        allFlashcards.push(newCard);
+        if (answers.additionalQuestion){
+            addClozeFlashcard();
+        } else {
+
+        };
     });
 };
 
@@ -56,5 +92,6 @@ inquirer.prompt([
         addStandardFlashcard();
     } else if (answers.quizType === 'cloze'){
         quizType = 'cloze';
+        addClozeFlashcard();
     };
 });

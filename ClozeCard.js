@@ -3,7 +3,7 @@ var ClozeCard = function(text, cloze){
 	this.fullText = text;
 	this.partialText;
 	this.findPartialText = function(){
-		var localPartial = this.fullText.replace(this.cloze, "");
+		var localPartial = this.fullText.replace(this.cloze, "_________");
 		if (localPartial){
 			this.partialText = localPartial;
 		} else {
