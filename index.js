@@ -5,9 +5,18 @@
 var express = require('express');
 var app = express();
 
-app.get('/testA', function(req,res){
+var http = require('http').Server(app);
+app.use(express.static('public'))
+
+app.get('/index.html', function(req,res){
     console.log(req);
-    res.status(200).send("Directory accessed");
+//    res.sendFile("./public/index.html");
+    res.sendFile('public/index.html', { root: __dirname });
+    res.sendFile('app.js', { root: __dirname });
+});
+
+http.listen(8080, function(){
+  console.log('listening on *:8080');
 });
 
 // Linking to custom modules
