@@ -57,8 +57,8 @@ function takeQuizInput(){
 
 function sendToServer(questionObj){
 	$.getScript( "/socket.io/socket.io.js" ).done(function() {
-//		var socket = io.connect('http://localhost:8080');
-		var socket = io.connect('https://flash-card-app-175414.appspot.com/');
+		var socket = io.connect('http://localhost:8080');
+//		var socket = io.connect('https://flash-card-app-175414.appspot.com/');
 		socket.emit('question_obj', questionObj);
 	});
 };
@@ -150,8 +150,8 @@ function runQuestion(){
 
 // Confirms quiz type (to prevent errors) and recieves questions array.
 $.getScript( "/socket.io/socket.io.js" ).done(function() {
-//		var socket = io.connect('http://localhost:8080');
-		var socket = io.connect('https://flash-card-app-175414.appspot.com/');
+		var socket = io.connect('http://localhost:8080');
+//		var socket = io.connect('https://flash-card-app-175414.appspot.com/');
 	    socket.on('question-array', function(quizArray){
 	    	questionsArray = quizArray; 
 	    	runQuestion(); 	
