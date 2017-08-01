@@ -53,16 +53,16 @@ function takeQuizInput(){
 	addQuestionInput();
 };
 
-function sendToServer(type, prompt, answer){
+function sendToServer(questionObj){
+//	console.log("Preparing to send " + questionObj);
 	$.getScript( "/socket.io/socket.io.js" ).done(function() {
 		var socket = io.connect('http://localhost:8080');
 	/*	socket.on('news', function (data) {
 		  console.log(data);
 		  socket.emit('my other event', { my: 'data' });
 		}); */
-		socket.emit('ques_type', type);
-		socket.emit('prompt', prompt);
-		socket.emit('answer', answer);
+		socket.emit('question_obj', questionObj);
+//		console.log("Sent?")
 	});
 };
 
@@ -76,17 +76,37 @@ $( document ).ready(function() {
 	    addQuestionInput();
 	});
 
+    // When the save button is clicked, the client side javascript loops through the submited questions and sends each to the server. 
+    // When all questions have been submited, the client side sends the code "Complete*89" to let the server know that the transmission is complete. 
+    // The random numbers are added to the end to decrease the liklihood that a user will accidently just use to word 'complete' on a flashcard. 
 	$("body").on("click", "#save-btn", function(){
+//		console.log("saving...")
 		if (quizType === "standard"){
 		    for (var i = 0; i < questionCount; i++){
 		    	var localFrontValue = $('#front-input-' + i)[0].value;
 		 		var localBackValue = $('#back-input-' + i)[0].value;
+		 		var standardObj = {
+		 			type: "standard",
+		 			prompt: localFrontValue,
+		 			answer: localBackValue
+		 		};
+		 		sendToServer(standardObj);
 		    };
+		    sendToServer("Complete*89");
 		} else if (quizType === "cloze") {
 			for (var i = 0; i < questionCount; i++){
 				var localFullTextValue = $('#full-text-input-' + i)[0].value;
 				var localHiddenPhraseValue = $('#hidden-phrase-input-' + i)[0].value;
+				var clozeObj = {
+		 			type: "cloze",
+		 			prompt: localFullTextValue,
+		 			answer: localHiddenPhraseValue
+		 		};
+//		 		console.log(clozeObj)
+		 		sendToServer(clozeObj);
 			};
+			sendToServer("Complete*89");
 		};
+//		console.log("Saved")
 	});
 });

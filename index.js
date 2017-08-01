@@ -21,16 +21,26 @@ io.on('connection', function(socket){
   console.log('a user connected');
 });  */
 
+function returnQuiz(){
+
+};
+
 io.on('connection', function(socket){
-  console.log("Connected")
-  socket.on('ques_type', function(msg){
-    console.log('Transmission recieved')
-    console.log('message: ' + msg);
+  socket.on('question_obj', function(msg){
+    console.log("Transmission received")
+    if (msg === "Complete*89"){
+        console.log("Complete*89")
+        returnQuiz();
+    } else {
+        console.log(msg.type);
+        console.log(msg.prompt);
+        console.log(msg.answer);
+    }
   });
 });
 
 http.listen(8080, function(){
-  console.log('listening on *:8080');
+//  console.log('listening on *:8080');
 });
 
 // Linking to custom modules
