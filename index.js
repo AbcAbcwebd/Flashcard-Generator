@@ -1,13 +1,19 @@
-// Eventually this app could use Express to interact with a front end (see index.html and app.js).
-// This functionality is not yet operational, however, due to issues with getting the front end and backend to interact with each other. 
-// GitHub Pages may be part of the issue here since they don't seem to support backend. 
-// I deployed a version to Google Cloud App Engine, but kept getting 502 errors and decided to focus on getting the core Node.js part up and running. 
+// Hosted version assumes only one user at a time. 
+// Since socket.io is not differentiating between users, things will get weird if multiple users are using the site at the same time. 
+
 var express = require('express');
 var app = express();
 
 var http = require('http').Server(app);
 app.use(express.static('public'))
 var io = require('socket.io')(http);
+
+// Linking to custom modules
+var BasicCard = require('./BasicCard.js');
+var ClozeCard = require('./ClozeCard.js');
+
+var quizType;
+var allFlashcards = [];
 
 app.get('/index.html', function(req,res){
     console.log(req);
@@ -22,20 +28,31 @@ io.on('connection', function(socket){
 });  */
 
 function returnQuiz(){
-
+    io.emit('quiz-type', quizType);
+    io.emit('question-array', allFlashcards);
 };
 
 io.on('connection', function(socket){
   socket.on('question_obj', function(msg){
-    console.log("Transmission received")
+//    console.log("Transmission received")
     if (msg === "Complete*89"){
-        console.log("Complete*89")
+//        console.log("Complete*89")
         returnQuiz();
     } else {
-        console.log(msg.type);
-        console.log(msg.prompt);
-        console.log(msg.answer);
-    }
+//      console.log(msg.type);
+//      console.log(msg.prompt);
+//      console.log(msg.answer);
+        if (msg.type === "standard"){
+            var newCard = new BasicCard(msg.prompt, msg.answer);
+            allFlashcards.push(newCard);
+        } else if (msg.type === "cloze"){
+            var newCard = new ClozeCard(msg.prompt, msg.answer);
+            newCard.findPartialText();
+            if (newCard.partialText.indexOf("_________") >= 0){
+                allFlashcards.push(newCard);
+            };
+        };
+    };
   });
 });
 
@@ -43,14 +60,8 @@ http.listen(8080, function(){
 //  console.log('listening on *:8080');
 });
 
-// Linking to custom modules
-var BasicCard = require('./BasicCard.js');
-var ClozeCard = require('./ClozeCard.js');
-
 // Functionality for interacting with the application via the command line: 
 var inquirer = require('inquirer');
-var quizType;
-var allFlashcards = [];
 var currentQuestion = 0;
 var correctCount = 0;
 

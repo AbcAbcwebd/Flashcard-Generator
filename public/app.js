@@ -110,3 +110,18 @@ $( document ).ready(function() {
 //		console.log("Saved")
 	});
 });
+
+function runQuiz(displayQuizArray){
+	console.log(displayQuizArray);
+}
+
+// Confirms quiz type (to prevent errors) and recieves questions array.
+$.getScript( "/socket.io/socket.io.js" ).done(function() {
+		var socket = io.connect('http://localhost:8080');
+		socket.on('quiz-type', function(qType){
+	      	quizType = qType;
+	    });
+	    socket.on('question-array', function(quizArray){
+	    	runQuiz(quizArray);  	
+	    });
+});
