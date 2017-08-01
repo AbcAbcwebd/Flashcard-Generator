@@ -77,5 +77,3 @@ $( document ).ready(function() {
 		};
 	});
 });
-
-$.get("/testA"); // , { name:"John", town:"Smith" }
