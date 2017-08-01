@@ -16,10 +16,18 @@ app.get('/index.html', function(req,res){
     res.sendFile('app.js', { root: __dirname });
 });
 
-
+/*
 io.on('connection', function(socket){
   console.log('a user connected');
-}); 
+});  */
+
+io.on('connection', function(socket){
+  console.log("Connected")
+  socket.on('ques_type', function(msg){
+    console.log('Transmission recieved')
+    console.log('message: ' + msg);
+  });
+});
 
 http.listen(8080, function(){
   console.log('listening on *:8080');
