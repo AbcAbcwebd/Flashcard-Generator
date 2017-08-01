@@ -28,7 +28,7 @@ io.on('connection', function(socket){
 });  */
 
 function returnQuiz(){
-    io.emit('quiz-type', quizType);
+//    io.emit('quiz-type', quizType);
     io.emit('question-array', allFlashcards);
 };
 
@@ -53,6 +53,11 @@ io.on('connection', function(socket){
             };
         };
     };
+  });
+
+  // So that new user doesn't end up with old user's questions.
+  socket.on('disconnect', function() {
+    allFlashcards = [];  
   });
 });
 

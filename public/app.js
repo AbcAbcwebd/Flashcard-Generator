@@ -2,7 +2,9 @@
 
 var quizType;
 var questionCount = 0;
-//var socket = io();
+var currentQuestion = 0;
+var questionsArray = [];
+var correctCount = 0;
 
 function generateBasicQuestionInput(){
 	var basicQuestionInput = $('<div>').attr('class', 'basic-question-input-element');
@@ -94,9 +96,9 @@ $( document ).ready(function() {
 		    };
 		    sendToServer("Complete*89");
 		} else if (quizType === "cloze") {
-			for (var i = 0; i < questionCount; i++){
-				var localFullTextValue = $('#full-text-input-' + i)[0].value;
-				var localHiddenPhraseValue = $('#hidden-phrase-input-' + i)[0].value;
+			for (var x = 0; x < questionCount; x++){
+				var localFullTextValue = $('#full-text-input-' + x)[0].value;
+				var localHiddenPhraseValue = $('#hidden-phrase-input-' + x)[0].value;
 				var clozeObj = {
 		 			type: "cloze",
 		 			prompt: localFullTextValue,
@@ -109,19 +111,59 @@ $( document ).ready(function() {
 		};
 //		console.log("Saved")
 	});
+
+	$("body").on("click", "#next-btn", function(){
+		var localAnswer = $('#answer-input')[0].value;
+		$('#display-holder').empty();
+		if ((quizType === "standard" && localAnswer === questionsArray[currentQuestion].back) || (quizType === "cloze" && localAnswer === questionsArray[currentQuestion].cloze)){
+			$('#display-holder').append("<p>That's correct!</p>");
+			correctCount++;
+			currentQuestion++;
+			setTimeout(runQuestion, 2000);
+		} else if (quizType === "standard"){
+			$('#display-holder').append("<p>Sorry, the correct answer was " + questionsArray[currentQuestion].back + "</p>");
+			currentQuestion++;
+			setTimeout(runQuestion, 3000);
+		} else if (quizType === "cloze") {
+			$('#display-holder').append("<p>Sorry, the correct answer was:</p><br><p>" + questionsArray[currentQuestion].fullText + "</p>");
+			currentQuestion++;
+			setTimeout(runQuestion, 3000);
+		};
+	});
 });
 
-function runQuiz(displayQuizArray){
-	console.log(displayQuizArray);
-}
+function endGame(){
+	$('#display-holder').empty();
+	$('#display-holder').append("<p>Thanks for playing!</p><br><p>You got " + correctCount + " of " + questionsArray.length + " correct.</p>");
+};
+
+function runQuestion(){
+	if (currentQuestion >= questionsArray.length){
+		endGame();
+		return;
+	};
+	$('#display-holder').empty();
+	var displayPrompt;
+	if (quizType === "standard"){
+		displayPrompt = $('<p>').text(questionsArray[currentQuestion].front);	
+	} else if (quizType === "cloze"){
+		displayPrompt = $('<p>').text(questionsArray[currentQuestion].partialText);
+	};
+	var answerInput = $('<input>').attr('id', 'answer-input');
+	var nextButton = $('<button>').text("Next").attr('id', 'next-btn');
+	$('#display-holder').append(displayPrompt);
+	$('#display-holder').append(answerInput);
+	$('#display-holder').append(nextButton);
+};
 
 // Confirms quiz type (to prevent errors) and recieves questions array.
 $.getScript( "/socket.io/socket.io.js" ).done(function() {
 		var socket = io.connect('http://localhost:8080');
-		socket.on('quiz-type', function(qType){
+/*		socket.on('quiz-type', function(qType){
 	      	quizType = qType;
-	    });
+	    }); */
 	    socket.on('question-array', function(quizArray){
-	    	runQuiz(quizArray);  	
+	    	questionsArray = quizArray; 
+	    	runQuestion(); 	
 	    });
 });
