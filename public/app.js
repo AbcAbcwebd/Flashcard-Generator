@@ -2,7 +2,7 @@
 
 var quizType;
 var questionCount = 0;
-//var BasicCard = require('./BasicCard.js');
+//var socket = io();
 
 function generateBasicQuestionInput(){
 	var basicQuestionInput = $('<div>').attr('class', 'basic-question-input-element');
@@ -51,6 +51,19 @@ function takeQuizInput(){
 	$('#display-holder').append(saveButton);
 
 	addQuestionInput();
+};
+
+function sendToServer(type, prompt, answer){
+	$.getScript( "/socket.io/socket.io.js" ).done(function() {
+		var socket = io.connect('http://localhost:8080');
+	/*	socket.on('news', function (data) {
+		  console.log(data);
+		  socket.emit('my other event', { my: 'data' });
+		}); */
+		socket.emit('ques_type', type);
+		socket.emit('prompt', prompt);
+		socket.emit('answer', answer);
+	});
 };
 
 $( document ).ready(function() {

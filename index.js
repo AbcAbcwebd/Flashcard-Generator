@@ -7,6 +7,7 @@ var app = express();
 
 var http = require('http').Server(app);
 app.use(express.static('public'))
+var io = require('socket.io')(http);
 
 app.get('/index.html', function(req,res){
     console.log(req);
@@ -14,6 +15,11 @@ app.get('/index.html', function(req,res){
     res.sendFile('public/index.html', { root: __dirname });
     res.sendFile('app.js', { root: __dirname });
 });
+
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+}); 
 
 http.listen(8080, function(){
   console.log('listening on *:8080');

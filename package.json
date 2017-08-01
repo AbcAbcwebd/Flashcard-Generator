@@ -24,6 +24,8 @@
   "homepage": "https://github.com/AbcAbcwebd/Flashcard-Generator#readme",
   "dependencies": {
     "express": "^4.15.3",
-    "inquirer": "^3.2.1"
+    "inquirer": "^3.2.1",
+    "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3"
   }
 }
