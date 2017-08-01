@@ -22,26 +22,15 @@ app.get('/index.html', function(req,res){
     res.sendFile('app.js', { root: __dirname });
 });
 
-/*
-io.on('connection', function(socket){
-  console.log('a user connected');
-});  */
-
 function returnQuiz(){
-//    io.emit('quiz-type', quizType);
     io.emit('question-array', allFlashcards);
 };
 
 io.on('connection', function(socket){
   socket.on('question_obj', function(msg){
-//    console.log("Transmission received")
     if (msg === "Complete*89"){
-//        console.log("Complete*89")
         returnQuiz();
     } else {
-//      console.log(msg.type);
-//      console.log(msg.prompt);
-//      console.log(msg.answer);
         if (msg.type === "standard"){
             var newCard = new BasicCard(msg.prompt, msg.answer);
             allFlashcards.push(newCard);
@@ -62,7 +51,7 @@ io.on('connection', function(socket){
 });
 
 http.listen(8080, function(){
-//  console.log('listening on *:8080');
+
 });
 
 // Functionality for interacting with the application via the command line: 

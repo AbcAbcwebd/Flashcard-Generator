@@ -1,4 +1,3 @@
-<!-- Front end not completed. Access index.js to interact with application via command line.-->
 <!DOCTYPE html>
 <html lang="en-us">
 
@@ -20,16 +19,6 @@
 		<button class='quiz-type-btn' data-selector='standard'>Standard</button>
 		<button class='quiz-type-btn' data-selector='cloze'>Cloze</button>
 	</div>
-	<!--
-	<script src="/socket.io/socket.io.js"></script>
-	<script type="text/javascript">
-		var io = require('socket.io')
-
-		io.on('connection', function(socket){
-  			console.log('a user connected');
-		});
-	</script>
-	-->
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
 	  var socket = io.connect('http://localhost:8080');

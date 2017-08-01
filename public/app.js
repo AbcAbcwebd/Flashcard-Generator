@@ -56,15 +56,9 @@ function takeQuizInput(){
 };
 
 function sendToServer(questionObj){
-//	console.log("Preparing to send " + questionObj);
 	$.getScript( "/socket.io/socket.io.js" ).done(function() {
 		var socket = io.connect('http://localhost:8080');
-	/*	socket.on('news', function (data) {
-		  console.log(data);
-		  socket.emit('my other event', { my: 'data' });
-		}); */
 		socket.emit('question_obj', questionObj);
-//		console.log("Sent?")
 	});
 };
 
@@ -82,7 +76,6 @@ $( document ).ready(function() {
     // When all questions have been submited, the client side sends the code "Complete*89" to let the server know that the transmission is complete. 
     // The random numbers are added to the end to decrease the liklihood that a user will accidently just use to word 'complete' on a flashcard. 
 	$("body").on("click", "#save-btn", function(){
-//		console.log("saving...")
 		if (quizType === "standard"){
 		    for (var i = 0; i < questionCount; i++){
 		    	var localFrontValue = $('#front-input-' + i)[0].value;
@@ -104,12 +97,10 @@ $( document ).ready(function() {
 		 			prompt: localFullTextValue,
 		 			answer: localHiddenPhraseValue
 		 		};
-//		 		console.log(clozeObj)
 		 		sendToServer(clozeObj);
 			};
 			sendToServer("Complete*89");
 		};
-//		console.log("Saved")
 	});
 
 	$("body").on("click", "#next-btn", function(){
@@ -159,9 +150,6 @@ function runQuestion(){
 // Confirms quiz type (to prevent errors) and recieves questions array.
 $.getScript( "/socket.io/socket.io.js" ).done(function() {
 		var socket = io.connect('http://localhost:8080');
-/*		socket.on('quiz-type', function(qType){
-	      	quizType = qType;
-	    }); */
 	    socket.on('question-array', function(quizArray){
 	    	questionsArray = quizArray; 
 	    	runQuestion(); 	
